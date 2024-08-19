@@ -188,13 +188,17 @@ function getLearnerData(course, ag, submissions) {
           let ob = ag.assignments.find((m) => m.id == sub2.assignment_id);
           if (sub2.submission.submitted_at > ob.due_at) {
             late = true;
-            //the Assignment ID, info on lateness, and the grade are added to each object in result
+            //the Assignment ID and the grade are added to each object in result
             //10 points are deducted for late grades, the assignment asks for 10 but the example uses 15, I just decided to use 10
-            result2[`Assignment: ${sub2.assignment_id}, Late: ${late},`] =
+            //lateness is also logged
+            result2[`${sub2.assignment_id}`] =
               (sub2.submission.score - 10) / ob.points_possible;
+              console.log(`${sub2.assignment_id} for ${result2["id"]} was late: ${late}`);
+              
           } else {
-            result2[`Assignment: ${sub2.assignment_id}, Late: ${late},`] =
+            result2[`${sub2.assignment_id}`] =
               sub2.submission.score / ob.points_possible;
+              console.log(`${sub2.assignment_id} for ${result2["id"]} was late: ${late}`);
           }
         }
       }
@@ -211,17 +215,7 @@ console.log(result);
 
 /* Final Results:
 [
-  {
-    id: 125,
-    avg: 0.985,
-    'Assignment: 1, Late: false,': 0.94,
-    'Assignment: 2, Late: false,': 1
-  },
-  {
-    id: 132,
-    avg: 0.845,
-    'Assignment: 1, Late: false,': 0.78,
-    'Assignment: 2, Late: true,': 0.8666666666666667
-  }
+{ '1': 0.94, '2': 1, id: 125, avg: 0.985 },
+{ '1': 0.78, '2': 0.8666666666666667, id: 132, avg: 0.845 }
 ]
 */
